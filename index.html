@@ -5,6 +5,13 @@
 	<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script> <!-- Using A-frame version 1.5.0 -->
 	<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 	<script src="https://unpkg.com/aframe-hologram-shader"></script>
+	<script src="./effects/halo-rings.js"></script>
+	<script src="./effects/shader-time.js"></script>
+	<script src="./effects/holo-shimmer.js"></script>
+
+	<script src="./components/avatar-effect-utils.js"></script> 
+	<script src="./components/effect-matrix.js"></script> 
+	<script src="./components/effect-glow.js"></script> 
 	<script> 
 		AFRAME.registerComponent('navigate-on-click', { 
 			schema: { 
@@ -41,9 +48,12 @@
 
 		<!-- Place your A-Frame Primitives below -->
 		<a-entity mindar-image-target="targetIndex: 0">
-			<a-plane src="#card" position="0 0 0" width="1" height="0.6"  rotation="0 0 0"
-				material="shader: hologram; glitchBarDrift: 0.05; rgbSeparation: 0.5; glitchRate: 1;"></a-plane>
+			<a-plane src="#card" position="0 0 0" width="1" height="0.6" rotation="0 0 0"
+				material="shader: holo-shimmer; shimmerIntensity: 0.5;  foilBrightness: 0.2; tiling: 1.0"></a-plane>
 			
+			<a-plane position="0 0 -0.1" height="2.2" width="2.2" rotation="0 0 90" shader-time 
+			material="shader: halo-rings; color: #00e5ff; intensity: 0.9; transparent: true; depthWrite: false; blending: additive;"></a-plane> 
+
 			<a-text text="value: Terence Goh" align="left" position="-0.44 0.08 0" width="1.5"></a-text> 
 			<a-text text="value: Senior Engineer" align="left" position="-0.44 0.02 0" width="1"></a-text> 
 			
@@ -58,7 +68,9 @@
 
 			<a-entity position="0.30 -0.1 0.2" rotation="0 0 0"> 
 				<a-gltf-model id="avatarModel" src="#avatarModel"
-					position="0 0 0" rotation="0 0 0" scale="0.4 0.4 0.4"></a-gltf-model> 
+					position="0 0 0" rotation="0 0 0" scale="0.4 0.4 0.4"
+					effect-glow="part: M_Tone01, Robot_Dog; color: #00e5ff; intensity: 1"
+					effect-matrix="part: M_Tone01, Robot_Dog; color: #00e5ff; columns:50; speed:120; intensity: 1" ></a-gltf-model> 
 			</a-entity> 
 
 			<a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"> 
