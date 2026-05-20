@@ -4,6 +4,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script> <!-- Using A-frame version 1.5.0 -->
 	<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+	<script src="https://unpkg.com/aframe-hologram-shader"></script>
+	<script> 
+		AFRAME.registerComponent('navigate-on-click', { 
+			schema: { 
+				url: { type: 'string', default: '' } 
+			}, 
+			init: function () { 
+				var data = this.data; 
+				var el = this.el; 
+				el.addEventListener('click', function () { 
+					window.open(data.url, '_blank'); 
+				}); 
+			} 
+		}); 
+	</script> 
 </head>
 
 <body>
@@ -17,6 +32,7 @@
 		<!-- For more information: https://aframe.io/docs/1.5.0/core/asset-management-system.html -->
 		<a-assets>
 			<img id="card" src="./images/virtualCard.png">
+			<a-asset-item id="avatarModel" src="./models/MyAvatar.glb"></a-asset-item> 
 		</a-assets>
 
 		<!-- Camera settings -->
@@ -25,7 +41,29 @@
 
 		<!-- Place your A-Frame Primitives below -->
 		<a-entity mindar-image-target="targetIndex: 0">
-			<a-plane src="#card" position="0 0 0" width="1" height="0.6"  rotation="0 0 0"></a-plane>
+			<a-plane src="#card" position="0 0 0" width="1" height="0.6"  rotation="0 0 0"
+				material="shader: hologram; glitchBarDrift: 0.05; rgbSeparation: 0.5; glitchRate: 1;"></a-plane>
+			
+			<a-text text="value: Terence Goh" align="left" position="-0.44 0.08 0" width="1.5"></a-text> 
+			<a-text text="value: Senior Engineer" align="left" position="-0.44 0.02 0" width="1"></a-text> 
+			
+			<a-text text="value: Contact Me; align: center; width: 1" 
+				geometry="primitive: plane; width: 0.25; height: 0.1;" 
+				material="color: gray; opacity: 1" position="0.35 -0.2 0.01" 
+				class="clickable" link="href: mailto: gyangyut@gmail.com"></a-text> 
+			<a-text text="value: Click here for my portfolio; align: center; 
+				width: 1" geometry="primitive: plane; width: 0.6; height: 0.1;"
+				material="color: gray; opacity: 0.5" position="0 -0.33 0.01"
+				class="clickable" navigate-on-click="url: https://github.com/IamRENCE"></a-text> 
+
+			<a-entity position="0.35 0.2 0.1" rotation="90 0 0"> 
+				<a-gltf-model id="avatarModel" src="#avatarModel"
+					position="0 0 0" rotation="0 0 0" scale="0.4 0.4 0.4"></a-gltf-model> 
+			</a-entity> 
+
+			<a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"> 
+        		<a-sphere position="5 0 0" color="mediumseagreen"></a-sphere> 
+			</a-entity> 
 		</a-entity>
 	</a-scene>
 </body>
